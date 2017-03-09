@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        .clickable {
+            cursor: pointer;
+        }
+
+        .notClickable {
+            cursor: not-allowed;
+        }
+
+        html input[disabled] {
+            cursor: not-allowed;
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body ng-controller="TodoListController as todoList">
+<div class="container">
+    <form ng-submit="todoList.addTask()">
+        <button type="submit" class="invisible"></button>
+        <div class="row">
+            <div class="col-lg-12 text-center"><h3><b>TODO LIST</b></h3></div>
+        </div>
+        <div class="row">
+            <div class="text-center">
+                <h4>
+                    <ng-pluralize count="todoList.todos.length"
+                                  when="{'0': 'No tasks left', '1': '{} task left', 'other': '{} tasks left'}"></ng-pluralize>
+                </h4>
+            </div>
+        </div>
+
+        <!-- TASKS -->
+        <div class="row task"
+             ng-repeat="todo in todoList.todos | orderBy: 'name' : false : todoList.nameSort | orderBy: 'done' | limitTo : 3 : 0">
+            <div class="col-lg-3 text-right"><input type="checkbox" ng-model="todo.done"></div>
+            <div class="col-lg-6" ng-class="todo.done ? 'text-muted strikethrough' : ''">{{todo.name | capitalize}}
+            </div>
+            <div class="col-lg-3"><span class="glyphicon glyphicon-remove text-danger clickable"
+                                        ng-click="todoList.removeTask($index)"></span></div>
+        </div>
+
+        <!-- NEW TASK-->
+        <!--<div class="row" ng-class="{invisible: todoList.todos.length > todoList.MAX}">-->
+        <div class="row" nng-show="todoList.todos.length < todoList.MAX">
+            <div class="col-lg-6 col-lg-offset-3">
+                <input autofocus type="text" placeholder="{{todoList.placeholder()}}" ng-model="todoList.newTask"
+                       ng-disabled="todoList.todos.length >= todoList.MAX">
+            </div>
+            <div class="col-lg-3">
+                <span class="glyphicon glyphicon-plus"
+                      ng-class="todoList.todos.length < todoList.MAX ? 'clickable text-success' : 'notClickable text-muted'"
+                      ng-click="todoList.addTask()"></span>
+            </div>
+        </div>
+
+        <!--Filtered TASKS -->
+        <br>
+        <div class="row task" ng-repeat="todo in todoList.todos | isDone">
+            <div class="col-lg-3 text-right"><input type="checkbox" ng-model="todo.done"></div>
+            <div class="col-lg-6" ng-class="todo.done ? 'text-muted strikethrough' : ''">{{todo.name}}</div>
+            <div class="col-lg-3"></div>
+        </div>
+
+        <!--congratulations message-->
+        <div class="row" ng-show="todoList.todos.length == 0">
+            <br>
+            <span class="col-lg-4 col-lg-offset-4 alert alert-success text-center">
+            <b>Congratulations!</b> You finished everything.
+        </span>
+        </div>
+        <!--max message-->
+        <div class="row" ng-show="todoList.todos.length >= todoList.MAX">
+            <br>
+            <span class="col-lg-4 col-lg-offset-4 alert alert-danger text-center">
+            <b>Whoah!</b> Finish these five first.
+        </span>
+        </div>
+    </form>
+</div>
+<br>
+<pre>{{todoList.todos|json}}</pre>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.min.js"></script>
+<script>
+    //TODO: Move to bottom of list
+    //TODO: change appropriate
+    //TODO: In-place editing of task
+    //TODO: Add detailed modal view, change input, allow in place editing of details, add fancy editing
+    //TODO: reorder tasks
+    //TODO: sub tasks
+
+    function capitalizeFirstLetter(str) {
+        return str.charAt(0).toUpperCase() + str.substring(1);
+    }
+
+    function isDone(todo) {
+        return todo.done === true;
+    }
+
+    angular.module('app', ['ngSanitize'])
+        .filter("capitalize", function () {
+            return capitalizeFirstLetter;
+        })
+        .filter("isDone", function () {
+            return function (list) {
+                let doneList = [];
+
+                return doneList;
+            }
+        })
+        .controller('TodoListController', ['$http', '$sanitize', function($http, $sanitize) {
+            let self = this;
+            self.MAX = 5;
+            function successCallback(data) {
+                self.todos = data.data;
+            }
+            $http.get('todos.json').then(successCallback);
+
+            self.placeholder = function () {
+                return (self.todos.length >= self.MAX) ? `No more than ${self.MAX} tasks` : "Add new task";
+            };
+            self.addTask = function () {
+                self.newTask = $sanitize(self.newTask);
+                if (!self.newTask) {
+                    return;
+                }
+
+                if (self.todos.includes(self.newTask)) {//todo this is broken
+                    return;
+                }
+
+
+                self.todos.push({name: self.newTask, done: false});
+                self.newTask = "";
+            };
+            self.removeTask = function (index) {
+                self.todos.splice(index, 1);
+            };
+
+            self.nameSort = function (a, b) {
+                if (a.value.toLowerCase().startsWith('buy')) {
+                    return 1;
+                }
+
+                if (b.value.toLowerCase().startsWith('buy')) {
+                    return -1;
+                }
+
+                return 1;
+            };
+        }]);
+</script>
+</body>
+</html>
