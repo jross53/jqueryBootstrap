@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
     <title>Jordan Ross</title>
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
-    <link rel="stylesheet" href="assets/tweets.css"/>
     <link href="./node_modules/angular-material/angular-material.css" rel="stylesheet"/>
     <link rel="stylesheet" href="./src/tweets/ng-tag-cloud.css">
+    <link rel='stylesheet' href='assets/RobotoFont.css'>
+    <link rel="stylesheet" href="assets/tweets.css"/>
 </head>
 
 <body ng-app="tweetApp" layout="column" ng-controller="TweetController">
 <md-toolbar layout="row">
-    <md-button class="menu">
+    <md-button aria-label="Menu" class="menu">
     </md-button>
 </md-toolbar>
 <div flex layout="row">
     <md-sidenav md-is-locked-open="true" class="md-whiteframe-4dp">
+
+        <!-- This is my custom directive -->
         <side-nav-header></side-nav-header>
+
         <md-list>
             <md-list-item ng-repeat="tweet in tweets">
-                <md-button aria-label="tweet" ng-click="selectTweet(tweet)" ng-class="{'selected' : tweet === selected }">
+                <md-button aria-label="Tweet" ng-click="selectTweet(tweet)"
+                           ng-class="{'selected' : tweet === selected }">
                     <md-icon md-svg-icon="{{tweet.avatar}}" class="avatar"></md-icon>
                     {{tweet.name}}
                 </md-button>
@@ -28,8 +32,8 @@
     <md-content flex class="tweetContent" ng-show="selected">
         <md-icon md-svg-icon="{{selected.avatar}}" class="avatar"></md-icon>
         <h2>{{selected.name}}</h2>
-        <md-progress-linear ng-show="collectingTweets" md-mode="indeterminate" aria-label="loading" aria-valuemin="0" aria-valuemax="100"
-                            role="progressbar" class="">
+        <md-progress-linear ng-show="collectingTweets" md-mode="indeterminate" aria-label="Collecting Tweets"
+                            aria-valuemin="0" aria-valuemax="100" role="progressbar">
             <div class="md-container md-mode-indeterminate">
                 <div class="md-dashed"></div>
                 <div class="md-bar md-bar1"></div>
