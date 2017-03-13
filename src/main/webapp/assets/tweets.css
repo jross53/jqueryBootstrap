@@ -57,7 +57,7 @@ md-sidenav md-list {
     -moz-transform: scale(0.70);
 }
 
-.sideNavHeader {
+side-nav-header {
     font-weight: 500;
     font-size: 14px;
     font-style: inherit;

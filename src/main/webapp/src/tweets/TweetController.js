@@ -6,7 +6,12 @@ angular
     })
     .controller('TweetController', [
         '$scope', '$http', TweetController
-    ]);
+    ])
+    .directive('sideNavHeader', function () {
+        return {
+            template: '<p>Click on an item to collect tweets</p>'
+        }
+    });
 
 function TweetController($scope, $http) {
     $scope.selected = null;

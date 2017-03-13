@@ -15,8 +15,7 @@
 </md-toolbar>
 <div flex layout="row">
     <md-sidenav md-is-locked-open="true" class="md-whiteframe-4dp">
-        <!--TODO I want to make this paragraph a directive -->
-        <p class="sideNavHeader">Click on an item to collect tweets</p>
+        <side-nav-header></side-nav-header>
         <md-list>
             <md-list-item ng-repeat="tweet in tweets">
                 <md-button aria-label="tweet" ng-click="selectTweet(tweet)" ng-class="{'selected' : tweet === selected }">
