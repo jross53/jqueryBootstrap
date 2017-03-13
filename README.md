@@ -13,7 +13,7 @@ To download a copy of the project to run in an IDE:
 Steps for git:
    * Create a directory for the project
    *  Execute command 'git init' in that directory
-   *   Execute command 'git clone https://github.com/kd7wfp/JavaFinal-Project.git'
+   *   Execute command 'git clone https://github.com/jross53/jqueryBootstrap.git'
    *   After Maven downloads the dependencies for the project it is ready to run
 
 # Using the application
