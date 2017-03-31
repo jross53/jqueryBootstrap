@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jordan Ross</title>
+    <link href="./src/angular-material/angular-material.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="./src/tweets/ng-tag-cloud.css">
+    <link rel='stylesheet' href='assets/RobotoFont.css'>
+    <link rel="stylesheet" href="assets/tweets.css"/>
+</head>
+
+<body ng-app="tweetApp" layout="column" ng-controller="TweetController">
+<md-toolbar layout="row">
+    <md-button aria-label="Menu" class="menu">
+    </md-button>
+</md-toolbar>
+<div flex layout="row">
+    <md-sidenav md-is-locked-open="true" class="md-whiteframe-4dp">
+
+        <!-- This is my custom directive -->
+        <side-nav-header></side-nav-header>
+
+        <md-list>
+            <md-list-item ng-repeat="tweet in tweets">
+                <md-button aria-label="Tweet" ng-click="selectTweet(tweet)"
+                           ng-class="{'selected' : tweet === selected }">
+                    <md-icon md-svg-icon="{{tweet.avatar}}" class="avatar"></md-icon>
+                    {{tweet.name}}
+                </md-button>
+            </md-list-item>
+        </md-list>
+    </md-sidenav>
+    <md-content flex class="tweetContent" ng-show="selected">
+        <md-icon md-svg-icon="{{selected.avatar}}" class="avatar"></md-icon>
+        <h2>{{selected.name}}</h2>
+        <md-progress-linear ng-show="collectingTweets" md-mode="indeterminate" aria-label="Collecting Tweets"
+                            aria-valuemin="0" aria-valuemax="100" role="progressbar">
+            <div class="md-container md-mode-indeterminate">
+                <div class="md-dashed"></div>
+                <div class="md-bar md-bar1"></div>
+                <div class="md-bar md-bar2"></div>
+            </div>
+        </md-progress-linear>
+        <div>
+            <ng-tag-cloud class="wordCloud" ng-show="showCloud" cloud-width="500" cloud-height="400"
+                          cloud-data="wordCloudData"></ng-tag-cloud>
+            <div ng-show="showTweetSentences" class="tweetSentences">
+                <h4>Tweets about: {{tweet}}</h4>
+                <div class="row" ng-repeat="tweetSentence in tweetSentences">{{tweetSentence}}</div>
+            </div>
+        </div>
+    </md-content>
+</div>
+
+<script src="./src/angular/angular.js" type="text/javascript"></script>
+<script src="./src/angular-animate/angular-animate.js" type="text/javascript"></script>
+<script src="./src/angular-aria/angular-aria.js" type="text/javascript"></script>
+<script src="./src/angular-material/angular-material.js" type="text/javascript"></script>
+<script src="./src/tweets/ng-tag-cloud.js"></script>
+<script src="./src/tweets/TweetController.js"></script>
+</body>
+</html>
