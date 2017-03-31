@@ -13,6 +13,8 @@ public class TwitterClustering
 {
     private static final Logger log = Logger.getLogger(Twitter.class);
 
+    private String clustered;
+
     /***
      * This Method takes in the tweet Hashset and then uses a clustering API to
      * cluster the tweets
@@ -43,7 +45,8 @@ public class TwitterClustering
                 }
             }
 
-            return body;
+            clustered = body;
+            return clustered;
         }
         catch (UnirestException e)
         {

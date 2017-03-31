@@ -10,12 +10,14 @@ import twitter4j.Logger;
 @RequestMapping("/twitter")
 public class TwitterController 
 {
-
     @Autowired
     Twitter twitter;
     @Autowired
     TwitterClustering twitterClustering;
-    private static final Logger log = Logger.getLogger(Twitter.class);
+    @Autowired
+    private FileService fileService;
+
+    private static final Logger log = Logger.getLogger(TwitterController.class);
 
     /***
      * Method to Get the Tweets
@@ -25,8 +27,9 @@ public class TwitterController
     @RequestMapping("/getTweets")
     public String getTweets(@RequestParam(value="tweet") String tweet)
     {
-
         log.info("Collecting tweets for: " + tweet);
-        return twitterClustering.GetClusteredXMLFromStringArray(twitter.collectTweets(tweet));
+        return fileService.getSampleTweetClustersWithDelayToEmulateCollectingTweets(tweet);
+//        String clusters = twitterClustering.GetClusteredXMLFromStringArray(twitter.collectTweets(tweet));
+//        return clusters;
     }
 }
