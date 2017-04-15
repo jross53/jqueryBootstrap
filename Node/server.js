@@ -8,10 +8,11 @@ let app = express(); //created an app express
 let logger = require('morgan');
 let compression = require('compression');
 let favicon = require('serve-favicon');
-let rest = require('./TodosREST');
+let rest = require('./TweetREST');
 let colors = require('colors');
 let winston = require('winston');
 let nconf = require('nconf');
+let mongoDAO = require('./mongoDAO');
 
 let servingStaticFilesMessage = 'servingStaticFiles';
 
@@ -36,3 +37,5 @@ app.listen(8080, function () { //if localhost is not defined in host file, just 
 
     console.log('Listening on port 8080');
 });
+
+mongoDAO.setUpDbWithTweets();

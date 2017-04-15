@@ -84,3 +84,7 @@ side-nav-header {
     font-family: inherit;
     text-decoration: none;
 }
+
+.ng-cloak {
+    display: none !important;
+}

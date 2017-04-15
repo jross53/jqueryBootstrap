@@ -105,10 +105,12 @@ function TweetController($scope, $http) {
     }
 
     $scope.collectTweets = function (tweet) {
-        $scope.showTweetSentences = false;
+        $scope.wordCloudData = [];
+        $scope.tweetSentences = [];
         $scope.tweet = tweet;
         $scope.collectingTweets = true;
         $scope.showCloud = false;
+        $scope.showTweetSentences = false;
         $http.get('/twitter/getTweets', {params: {tweet: tweet}}).then(displayTweetsInWordCloud);
     };
 
