@@ -1,5 +1,5 @@
-# Node assignment
+# MongoDB assignment
 
-For this project I took my Angular/Material project and changed the html/js/css files to be served up by Node/Express. My Node code is in the Node folder. I also did simple implementations of these modules: winston, colors, nconf and more. This was for CS 4690 at Utah Valley University.
+For this project I took my Node/Express project and changed it to pull the tweet information from MongoDB. This was for CS 4690 at Utah Valley University.
 
-![Screenshot](https://github.com/jross53/web/blob/node/screenshot.PNG)
+![Screenshot](https://github.com/jross53/web/blob/mongodb/screenshot.PNG)
