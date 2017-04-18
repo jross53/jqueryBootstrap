@@ -12,7 +12,8 @@ let rest = require('./TweetREST');
 let colors = require('colors');
 let winston = require('winston');
 let nconf = require('nconf');
-let mongoDAO = require('./mongoDAO');
+let mySqlDAO = require('./mySqlDAO');
+// let mongoDAO = require('./mongoDAO');
 
 let servingStaticFilesMessage = 'servingStaticFiles';
 
@@ -38,4 +39,4 @@ app.listen(8080, function () { //if localhost is not defined in host file, just 
     console.log('Listening on port 8080');
 });
 
-mongoDAO.setUpDbWithTweets();
+mySqlDAO.setUpDbWithTweets();

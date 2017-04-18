@@ -1,17 +1,17 @@
 let express = require('express');
 let router = express.Router();
-let mongoDAO = require('./mongoDAO');
+let mySqlDAO = require('./mySqlDAO');
 
 router.get('/twitter/getTweets', function (req, res) {
     let tweet = req.query.tweet.toLowerCase();
-    mongoDAO.read(tweet, function(err, tweet) {
+    mySqlDAO.read(tweet, function(err, tweet) {
         if(err) {
             throw err;
         }
 
-        //simulate fetching tweets since they are just in mongo now
+        //simulate fetching tweets since they are just in mysql now
         setTimeout(function() {
-            res.status(200).send(tweet.cluster);
+            res.status(200).send(tweet.Cluster);
         }, 1500);
     });
 
